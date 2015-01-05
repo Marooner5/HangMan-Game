@@ -29,14 +29,34 @@ class HangMan:
 
     def initial_shown_word(self):
         i = 0
+        self.shown_word = []
         while i < len(self.word):
             self.shown_word.append("_")
             i += 1
         return self.shown_word
 
+    def show_word(self):
+        i = 0
+        print_string = ""
+        while i < self.length-1:
+            print_string += self.shown_word[i] + " "
+            i += 1
+        print_string += self.shown_word[i]
+        return print_string
+
+    def show_letters_to_guess(self):
+        i = 0
+        print_string = ""
+        while i < len(self.letters_to_guess)-1:
+            print_string += self.letters_to_guess[i] + " "
+            i += 1
+        print_string += self.letters_to_guess[i]
+        return print_string
+
     def get_number_of_attempts(self):
+        attempts = self.ask_for_attempts()
         try:
-            attempts = int(self.ask_for_attempts())
+            attempts = int(attempts)
             while attempts < 1:
                 print "Not enough attempts entered. This is ridiculous. Asking again. \n"
                 attempts = int(self.ask_for_attempts())
@@ -51,15 +71,6 @@ class HangMan:
         return "" + inpt
 
     def match_letter(self, guess):
-        # go through a loop to see how many letters match the guess and make changes accordingly.
-        # have a variable that holds the indexes at which the letters were found.
-        # what needs to happen if a letter matches
-        #   add 1 to winning_letters each time there's a match
-        #   hold the index at which the letter was found each time
-        #   take that letter away from the letters available to guess from
-        # what needs to happen if a letter doesn't match at all
-        #   if a letter is not found at all or string.find(guess) == -1 then
-        #       add one to attempts and take that letter away from the available letters to guess from
         i = 0
         matched = False
         while i < len(self.word):
@@ -78,8 +89,8 @@ class HangMan:
         guess = raw_input("What is your guess? \n")
         if guess not in self.letters_to_guess:
             print "You either did not guess an actual letter (singular), or you guessed a letter " \
-                  "you have already guessed"
-            self.get_guess()
+                  "you have already guessed \n"
+            guess = self.get_guess()
         if guess in self.letters_to_guess:
             return guess
 
@@ -96,25 +107,25 @@ class HangMan:
         self.ask_to_play_again()
 
     def ask_to_play_again(self):
-        input = raw_input("Would you like to play again? \n")
-        if input.lower() == "yes":
+        inputs = raw_input("Would you like to play again? \n")
+        if inputs.lower() == "yes":
             self.new_game()
 
     def wrong_guess(self):
         self.attempts -= 1
-        print "You guessed WRONG, you have", self.attempts, "attempts left. Here is what you have.\n " \
-            "This is what you can guess", self.letters_to_guess, "\n\n", "This is what you have of the word so far", \
-            self.shown_word, "\n\n"
+        print "You guessed WRONG, you have", self.attempts, "attempts left. Here is what you have.\n" \
+            "This is what you can guess", self.show_letters_to_guess(), "\n\n", "This is what you have of the word so far", \
+            self.show_word(), "\n\n"
         if self.attempts == 0:
-            print "You lose"
+            print "You lose, here is the word you were trying to guess", "\n", self.word
 
     def right_guess(self):
         if self.winning_letters == self.length:
-            print self.shown_word, "\n", "You win! \n"
+            print self.show_word(), "\n", "You win! \n"
             self.win_condition = True
         else:
-            print "Checking if you won because you guessed RIGHT. So here is what you have so far. \n", self.shown_word,\
-                "\n\n", "This is what you can guess", "\n", self.letters_to_guess, "\n"
+            print "CORRECT! Here is what you have so far. \n", self.show_word(), "\n\n", \
+                "This is what you can guess", "\n", self.show_letters_to_guess(), "\n"
 
     def take_letter_out(self, guess):
         self.letters_to_guess.remove(guess)
