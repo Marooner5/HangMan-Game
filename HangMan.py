@@ -146,7 +146,7 @@ class HangMan:
     #  Does not return anything. If the loops ends it asks if the user wants to play again.
 
     def __start_game(self):
-        while (self.attempts > 0) and (self.winning_letters < self.length):
+        while (self.attempts > 0) and (self.win_condition is False):
             guess = self.__get_guess()
             matched = self.__match_letter(guess)
             if matched is False:
