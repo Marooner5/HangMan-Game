@@ -90,8 +90,8 @@ class HangMan:
         attempts = self.__ask_for_attempts()
         try:
             attempts = int(attempts)
-            while attempts < 1:
-                print "Not enough lives entered. This is ridiculous. Asking again. \n"
+            while attempts < 1 or attempts > 15:
+                print "Hahahaha no. This is ridiculous. Asking again. \n"
                 attempts = int(self.__ask_for_attempts())
         except TypeError:
             print "Not an integer"
@@ -162,7 +162,7 @@ class HangMan:
     #  Does not return anything. If the input is "yes" a new game will be started with 'new_game()'.
 
     def __ask_to_play_again(self):
-        inputs = raw_input("Would you like to play again? \n")
+        inputs = raw_input("Would you like to play again? Type 'yes' to play again. \n")
         if inputs.lower() == "yes":
             self.__new_game()
 

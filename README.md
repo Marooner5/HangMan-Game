@@ -14,4 +14,4 @@ All that is yet to do is test for bugs.
 
 
 As you will later see I am also doing these same
-projects in Java, Swift, C, C++, and Ruby.
+projects in Java, Swift, C/C++, and Ruby.
